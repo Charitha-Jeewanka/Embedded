@@ -13,17 +13,17 @@ TM1637Display display(CLK, DIO);
 
 
 const byte ROWS = 4; 
-const byte COLS = 3; 
+const byte COLS = 4; 
 
 char hexaKeys[ROWS][COLS] = {
-  {'1', '2', '3'},
-  {'4', '5', '6'},
-  {'7', '8', '9'},
-  {'*', '0', '#'}
+  {'1', '2', '3', 'A'},
+  {'4', '5', '6', 'B'},
+  {'7', '8', '9', 'C'},
+  {'*', '0', '#', 'D'}
 };
 
 byte rowPins[ROWS] = {0, 1, 2, 3}; 
-byte colPins[COLS] = {5, 6, 7}; 
+byte colPins[COLS] = {4, 5, 6, 7}; 
 
 Keypad customKeypad = Keypad(makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS); 
 // int keyNum = 0;
@@ -48,7 +48,9 @@ void loop(){
   
   
   // Keypad
-  if (customKey){
+
+  if (customKey)
+  {
     Serial.println(customKey);
     data[0] = display.encodeDigit(keyNum);
   }
@@ -58,13 +60,13 @@ void loop(){
     data[3] = display.encodeDigit(0);    
     display.setSegments(data);
 
-  if(digitalRead(8)==LOW)
+  /*if(digitalRead(8)==LOW)
   {
     Serial.print(0);
   }  
   else
   {
     Serial.print(1);
-  }
+  }*/
   
 }
