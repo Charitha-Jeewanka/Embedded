@@ -29,6 +29,7 @@ Keypad customKeypad = Keypad(makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS)
 // int keyNum = 0;
 uint8_t data[] = {0xff,0xff,0xff,0xff};
 uint8_t blank[] = {0x00,0x00,0x00,0x00};
+uint8_t inp[10];
 
 
 void setup(){
@@ -60,13 +61,43 @@ void loop(){
     data[3] = display.encodeDigit(0);    
     display.setSegments(data);
 
-  /*if(digitalRead(8)==LOW)
-  {
-    Serial.print(0);
-  }  
-  else
-  {
-    Serial.print(1);
-  }*/
+  // Transmitter
+  digitalWrite(7, HIGH);
+  delay(1000);
   
+  digitalWrite(7, LOW);
+  delay(1000);  
+  
+  // Reciever
+  for(int i = 0; i < 10; i++)
+  {
+    if(digitalRead(8)==LOW)
+    {
+      Serial.print(0);
+      inp[i] = digitalRead(8);
+            
+    }  
+    else
+    {
+      Serial.print(1);
+      inp[i] = digitalRead(8);
+    }
+  }
+  
+  
+}
+
+int freq_calc()
+{
+  uint8_t inArray[10];
+  int count;
+  for(int i = 0; i < 10; i++)
+  {
+    inp[i] = inArray[i];
+    if (inArray[i] == inArray[i + 1])
+    {
+      count++;
+    }
+  }
+  return count;
 }
